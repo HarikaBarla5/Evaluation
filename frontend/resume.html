@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signal — Upload Resume</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  /* ── Resume page specific ── */
+  .resume-page {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 48px 24px 96px;
+  }
+
+  .upload-zone {
+    background: var(--panel);
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 56px 32px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+    position: relative;
+  }
+
+  .upload-zone:hover,
+  .upload-zone.drag-over {
+    border-color: var(--accent);
+    background: rgba(94, 230, 197, 0.04);
+  }
+
+  .upload-zone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+
+  .upload-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 20px;
+    background: var(--panel-2);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+  }
+
+  .upload-zone h3 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    margin: 0 0 8px;
+  }
+
+  .upload-zone p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .file-selected {
+    display: none;
+    background: var(--panel);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-top: 16px;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .file-selected.visible { display: flex; }
+
+  .file-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(94, 230, 197, 0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .file-info { flex: 1; min-width: 0; }
+
+  .file-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .file-size {
+    color: var(--muted);
+    font-size: 0.82rem;
+    margin-top: 2px;
+  }
+
+  .remove-file {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 4px;
+    transition: color 0.2s ease;
+  }
+
+  .remove-file:hover { color: var(--alert); }
+
+  .status-card {
+    display: none;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-top: 24px;
+    text-align: center;
+  }
+
+  .status-card.visible { display: block; }
+
+  .spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .status-text {
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+
+  .status-text strong { color: var(--text); }
+
+  .questions-preview {
+    display: none;
+    margin-top: 24px;
+  }
+
+  .questions-preview.visible { display: block; }
+
+  .q-item {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px 18px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .q-num {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-weight: 700;
+    padding-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .q-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .error-box {
+    display: none;
+    background: rgba(255, 107, 107, 0.08);
+    border: 1px solid var(--alert);
+    border-radius: var(--radius-sm);
+    padding: 16px 18px;
+    margin-top: 16px;
+    color: var(--alert);
+    font-size: 0.9rem;
+  }
+
+  .error-box.visible { display: block; }
+
+  .key-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+  }
+
+  .key-tag {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    background: rgba(94, 230, 197, 0.08);
+    color: var(--accent);
+    border: 1px solid rgba(94, 230, 197, 0.2);
+    border-radius: 4px;
+    padding: 2px 8px;
+  }
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark"></span>
+    <span class="brand-name">Signal<span class="accent">.</span></span>
+  </div>
+  <nav class="topnav">
+    <a href="index.html">Home</a>
+    <a href="report.html">Sample report</a>
+  </nav>
+</header>
+
+<main class="resume-page">
+  <p class="eyebrow">Step 1 of 2</p>
+  <h1 style="font-family:var(--font-display);font-size:clamp(1.8rem,4vw,2.6rem);margin:0 0 10px;letter-spacing:-0.02em;">
+    Upload your resume
+  </h1>
+  <p class="lede" style="margin-bottom:32px;">
+    Signal reads your skills and projects, then generates 5 questions tailored specifically to your background.
+  </p>
+
+  <!-- Upload zone -->
+  <div class="upload-zone" id="uploadZone">
+    <input type="file" id="fileInput" accept=".pdf,.docx,.doc">
+    <div class="upload-icon">📄</div>
+    <h3>Drop your resume here</h3>
+    <p>PDF or DOCX · Max 5MB</p>
+  </div>
+
+  <!-- Selected file display -->
+  <div class="file-selected" id="fileSelected">
+    <div class="file-icon">📎</div>
+    <div class="file-info">
+      <div class="file-name" id="fileName">—</div>
+      <div class="file-size" id="fileSize">—</div>
+    </div>
+    <button class="remove-file" id="removeFile" title="Remove">✕</button>
+  </div>
+
+  <!-- Error box -->
+  <div class="error-box" id="errorBox"></div>
+
+  <!-- Processing status -->
+  <div class="status-card" id="statusCard">
+    <div class="spinner"></div>
+    <p class="status-text" id="statusText">
+      <strong>Reading resume…</strong><br>Extracting your skills and experience.
+    </p>
+  </div>
+
+  <!-- Generated questions preview -->
+  <div class="questions-preview" id="questionsPreview">
+    <div class="panel-label" style="margin-bottom:14px;">Your 5 interview questions</div>
+    <div id="questionsList"></div>
+  </div>
+
+  <!-- CTA -->
+  <div class="controls" style="margin-top:28px;">
+    <button class="btn btn-primary" id="analyseBtn" disabled>
+      Analyse resume →
+    </button>
+    <button class="btn btn-finish" id="startInterviewBtn" style="display:none;">
+      Start interview →
+    </button>
+  </div>
+</main>
+
+<footer class="footer">
+  <span>Signal — practice interviews, read clearly.</span>
+</footer>
+
+<script>
+const API_BASE = "http://localhost:8000";
+
+const fileInput       = document.getElementById("fileInput");
+const uploadZone      = document.getElementById("uploadZone");
+const fileSelected    = document.getElementById("fileSelected");
+const fileName        = document.getElementById("fileName");
+const fileSize        = document.getElementById("fileSize");
+const removeFile      = document.getElementById("removeFile");
+const analyseBtn      = document.getElementById("analyseBtn");
+const startInterviewBtn = document.getElementById("startInterviewBtn");
+const statusCard      = document.getElementById("statusCard");
+const statusText      = document.getElementById("statusText");
+const questionsPreview = document.getElementById("questionsPreview");
+const questionsList   = document.getElementById("questionsList");
+const errorBox        = document.getElementById("errorBox");
+
+let selectedFile = null;
+
+function formatBytes(bytes) {
+  if (bytes < 1024) return bytes + " B";
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+  return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+}
+
+function showError(msg) {
+  errorBox.textContent = msg;
+  errorBox.classList.add("visible");
+  statusCard.classList.remove("visible");
+}
+
+function clearError() {
+  errorBox.classList.remove("visible");
+}
+
+function setFile(file) {
+  if (!file) return;
+  const ext = file.name.split(".").pop().toLowerCase();
+  if (!["pdf", "docx", "doc"].includes(ext)) {
+    showError("Please upload a PDF or DOCX file.");
+    return;
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    showError("File too large. Maximum size is 5MB.");
+    return;
+  }
+  clearError();
+  selectedFile = file;
+  fileName.textContent = file.name;
+  fileSize.textContent = formatBytes(file.size);
+  fileSelected.classList.add("visible");
+  analyseBtn.disabled = false;
+
+  // reset previous results
+  questionsPreview.classList.remove("visible");
+  startInterviewBtn.style.display = "none";
+  analyseBtn.style.display = "";
+}
+
+// file input change
+fileInput.addEventListener("change", () => {
+  if (fileInput.files[0]) setFile(fileInput.files[0]);
+});
+
+// drag & drop
+uploadZone.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  uploadZone.classList.add("drag-over");
+});
+uploadZone.addEventListener("dragleave", () => uploadZone.classList.remove("drag-over"));
+uploadZone.addEventListener("drop", (e) => {
+  e.preventDefault();
+  uploadZone.classList.remove("drag-over");
+  if (e.dataTransfer.files[0]) setFile(e.dataTransfer.files[0]);
+});
+
+// remove file
+removeFile.addEventListener("click", () => {
+  selectedFile = null;
+  fileInput.value = "";
+  fileSelected.classList.remove("visible");
+  analyseBtn.disabled = true;
+  questionsPreview.classList.remove("visible");
+  startInterviewBtn.style.display = "none";
+  analyseBtn.style.display = "";
+  clearError();
+});
+
+// analyse
+analyseBtn.addEventListener("click", async () => {
+  if (!selectedFile) return;
+
+  analyseBtn.disabled = true;
+  clearError();
+  statusCard.classList.add("visible");
+  statusText.innerHTML = "<strong>Reading resume…</strong><br>Extracting your skills and experience.";
+
+  setTimeout(() => {
+    statusText.innerHTML = "<strong>Generating questions…</strong><br>Claude is tailoring 5 questions to your background.";
+  }, 2000);
+
+  const formData = new FormData();
+  formData.append("file", selectedFile);
+
+  try {
+    const res = await fetch(`${API_BASE}/resume/upload`, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail || `Server error ${res.status}`);
+    }
+
+    const data = await res.json();
+    statusCard.classList.remove("visible");
+
+    // render questions
+    questionsList.innerHTML = data.questions.map((q, i) => `
+      <div class="q-item">
+        <span class="q-num">Q${i + 1}</span>
+        <div>
+          <div class="q-text">${q.question}</div>
+          <div class="key-tags">
+            ${(q.keywords || []).map(k => `<span class="key-tag">${k}</span>`).join("")}
+          </div>
+        </div>
+      </div>
+    `).join("");
+
+    questionsPreview.classList.add("visible");
+
+    // store questions for interview page
+    sessionStorage.setItem("signal_questions", JSON.stringify(data.questions));
+
+    // swap buttons
+    analyseBtn.style.display = "none";
+    startInterviewBtn.style.display = "";
+
+  } catch (err) {
+    showError("Could not generate questions: " + err.message);
+    analyseBtn.disabled = false;
+  }
+});
+
+// go to interview
+startInterviewBtn.addEventListener("click", () => {
+  window.location.href = "interview.html";
+});
+</script>
+</body>
+</html>

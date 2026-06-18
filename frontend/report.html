@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signal — Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark"></span>
+    <span class="brand-name">Signal<span class="accent">.</span></span>
+  </div>
+  <nav class="topnav">
+    <a href="index.html">Home</a>
+    <a href="interview.html">New session</a>
+  </nav>
+</header>
+
+<main class="report">
+
+  <section class="report-hero">
+    <div>
+      <p class="eyebrow">Session report</p>
+      <h1>Here's how it read.</h1>
+      <p class="lede" id="bandText">Composite band: <strong>Good</strong></p>
+    </div>
+    <div class="score-dial">
+      <div class="score-dial-value mono" id="finalScore">83.4</div>
+      <div class="score-dial-label">/ 100</div>
+    </div>
+  </section>
+
+  <section class="report-grid">
+
+    <div class="report-card wide">
+      <div class="panel-label">Score breakdown</div>
+      <div class="signal-strip" id="breakdownStrip">
+        <!-- filled by JS -->
+      </div>
+    </div>
+
+    <div class="report-card">
+      <div class="panel-label">Expression</div>
+      <p class="report-stat mono" id="emotionStat">—</p>
+      <p class="report-detail" id="emotionDetail">No data loaded.</p>
+    </div>
+
+    <div class="report-card">
+      <div class="panel-label">Voice</div>
+      <p class="report-stat mono" id="voiceStat">—</p>
+      <p class="report-detail" id="voiceDetail">No data loaded.</p>
+    </div>
+
+    <div class="report-card">
+      <div class="panel-label">Answers</div>
+      <p class="report-stat mono" id="answerStat">—</p>
+      <p class="report-detail" id="answerDetail">No data loaded.</p>
+    </div>
+
+    <div class="report-card wide">
+      <div class="panel-label">Feedback</div>
+      <ul class="feedback-list" id="feedbackList">
+        <li>Run a session to see personalized feedback here.</li>
+      </ul>
+    </div>
+
+    <div class="report-card wide">
+      <div class="panel-label">Per-question detail</div>
+      <div id="questionDetails" class="qa-list">
+        <p class="report-detail">No question data loaded.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <div class="controls" style="margin-top: 32px;">
+    <a href="interview.html" class="btn btn-primary">Run another session</a>
+    <a href="index.html" class="btn btn-ghost">Back home</a>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <span>Signal — practice interviews, read clearly.</span>
+</footer>
+
+<script src="js/report.js"></script>
+</body>
+</html>
