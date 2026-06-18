@@ -1,0 +1,33 @@
+# ============================================================
+# AI Interview System — Requirements
+# Install: pip install -r requirements.txt
+# Python: 3.9+ recommended
+# ============================================================
+
+# ── Web framework ────────────────────────────────────────────
+fastapi==0.111.0
+uvicorn[standard]==0.29.0
+python-multipart==0.0.9      # file uploads in FastAPI
+
+# ── CNN (Emotion) ────────────────────────────────────────────
+tensorflow==2.16.1           # includes Keras; GPU users: swap for tensorflow[and-cuda]
+opencv-python==4.9.0.80      # face detection + frame extraction
+
+# ── LSTM (Voice) ─────────────────────────────────────────────
+librosa==0.10.1              # MFCC, pitch, onset detection
+soundfile==0.12.1            # audio I/O backend for librosa
+numba==0.59.1                # librosa JIT speedup
+
+# ── BERT (Answer evaluation) ─────────────────────────────────
+sentence-transformers==2.7.0 # all-MiniLM-L6-v2 sentence embeddings
+torch==2.2.2                 # required by sentence-transformers (CPU build)
+# GPU users replace torch with: torch==2.2.2+cu121 --index-url https://download.pytorch.org/whl/cu121
+
+# ── Training utilities ───────────────────────────────────────
+scikit-learn==1.4.2          # train_test_split, cosine_similarity
+numpy==1.26.4
+pandas==2.2.2                # FER2013 CSV loading
+
+# ── Report / misc ────────────────────────────────────────────
+pydantic==2.7.1              # FastAPI request/response models
+aiofiles==23.2.1             # async file ops (optional but useful)
