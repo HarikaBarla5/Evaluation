@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signal — Session</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark"></span>
+    <span class="brand-name">Signal<span class="accent">.</span></span>
+  </div>
+  <nav class="topnav">
+    <a href="index.html">Home</a>
+    <a href="report.html">Sample report</a>
+  </nav>
+</header>
+
+<main class="session">
+
+  <section class="session-main">
+    <div class="video-frame">
+      <video id="preview" autoplay muted playsinline></video>
+      <div class="rec-indicator" id="recIndicator">
+        <span class="rec-dot"></span>
+        <span id="recLabel">Not recording</span>
+      </div>
+      <div class="timer mono" id="timer">00:00</div>
+    </div>
+
+    <div class="question-card">
+      <div class="question-head">
+        <span class="eyebrow">Question <span id="qIndex" class="mono">1</span> / <span id="qTotal" class="mono">3</span></span>
+      </div>
+      <p class="question-text" id="questionText">
+        Tell me about a time you had to solve a difficult problem under pressure.
+      </p>
+      <textarea id="answerText" class="answer-input" placeholder="Type or paste what you said — used for answer evaluation..."></textarea>
+    </div>
+
+    <div class="controls">
+      <button id="startBtn" class="btn btn-primary">Start session</button>
+      <button id="recordBtn" class="btn btn-record" disabled>● Record answer</button>
+      <button id="nextBtn" class="btn btn-ghost" disabled>Next question →</button>
+      <button id="finishBtn" class="btn btn-finish" disabled>Finish & get report</button>
+    </div>
+  </section>
+
+  <aside class="session-side">
+    <div class="panel-label">Live signal</div>
+    <div class="signal-strip">
+      <div class="signal-row">
+        <div class="signal-meta">
+          <span class="signal-name">Expression</span>
+          <span class="signal-value mono" id="liveEmotion">—</span>
+        </div>
+        <div class="signal-track"><div class="signal-fill" id="fillEmotion" style="--w:0%"></div></div>
+      </div>
+      <div class="signal-row">
+        <div class="signal-meta">
+          <span class="signal-name">Voice confidence</span>
+          <span class="signal-value mono" id="liveVoice">—</span>
+        </div>
+        <div class="signal-track"><div class="signal-fill" id="fillVoice" style="--w:0%"></div></div>
+      </div>
+      <div class="signal-row">
+        <div class="signal-meta">
+          <span class="signal-name">Answers captured</span>
+          <span class="signal-value mono" id="liveAnswers">0 / 3</span>
+        </div>
+        <div class="signal-track"><div class="signal-fill" id="fillAnswers" style="--w:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="side-note">
+      <p class="eyebrow">Tip</p>
+      <p>Speak naturally and look toward the camera. Signal samples expression and tone continuously — there's no need to perform for it.</p>
+    </div>
+  </aside>
+
+</main>
+
+<footer class="footer">
+  <span>Signal — practice interviews, read clearly.</span>
+</footer>
+
+<script src="js/interview.js"></script>
+</body>
+</html>

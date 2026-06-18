@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Interview — Practice with signal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark"></span>
+    <span class="brand-name">Signal<span class="accent">.</span></span>
+  </div>
+  <nav class="topnav">
+    <a href="interview.html">Start session</a>
+    <a href="report.html">Sample report</a>
+  </nav>
+</header>
+
+<main class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">AI interview readiness</p>
+    <h1>Three signals.<br>One read on how<br>you're really doing.</h1>
+    <p class="lede">
+      Signal watches what an interviewer watches — your expression, your voice,
+      and your answers — and turns it into one score you can actually act on.
+    </p>
+    <a class="cta" href="interview.html">Start a session →</a>
+  </div>
+
+  <div class="hero-panel">
+    <div class="panel-label">Live signal preview</div>
+    <div class="signal-strip">
+      <div class="signal-row">
+        <div class="signal-meta">
+          <span class="signal-name">Expression</span>
+          <span class="signal-value mono">82</span>
+        </div>
+        <div class="signal-track"><div class="signal-fill" data-fill="82" style="--w:82%"></div></div>
+      </div>
+      <div class="signal-row">
+        <div class="signal-meta">
+          <span class="signal-name">Voice confidence</span>
+          <span class="signal-value mono">74</span>
+        </div>
+        <div class="signal-track"><div class="signal-fill" data-fill="74" style="--w:74%"></div></div>
+      </div>
+      <div class="signal-row">
+        <div class="signal-meta">
+          <span class="signal-name">Answer quality</span>
+          <span class="signal-value mono">91</span>
+        </div>
+        <div class="signal-track"><div class="signal-fill" data-fill="91" style="--w:91%"></div></div>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <span>Composite score</span>
+      <span class="mono big-score">83.4</span>
+    </div>
+  </div>
+</main>
+
+<section class="how">
+  <p class="eyebrow">How it works</p>
+  <div class="how-grid">
+    <div class="how-card">
+      <span class="how-num mono">CNN</span>
+      <h3>Reads your expression</h3>
+      <p>A vision model tracks composure and emotional steadiness across the session — frame by frame.</p>
+    </div>
+    <div class="how-card">
+      <span class="how-num mono">LSTM</span>
+      <h3>Listens to your voice</h3>
+      <p>Pitch, pace, and tone are analyzed over time to estimate vocal confidence and delivery rhythm.</p>
+    </div>
+    <div class="how-card">
+      <span class="how-num mono">BERT</span>
+      <h3>Evaluates your answers</h3>
+      <p>Your responses are compared against strong reference answers for relevance and depth.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <span>Signal — practice interviews, read clearly.</span>
+</footer>
+
+<script src="js/animate.js"></script>
+</body>
+</html>
